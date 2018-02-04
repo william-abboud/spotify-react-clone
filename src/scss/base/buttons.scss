@@ -3,40 +3,40 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"],
 button {
-	background: none;
-	border: 0;
-	color: inherit;
-	font: inherit;
-	line-height: normal;
-	overflow: visible;
-	padding: 5px 10px;
-	border-radius: 4px;
-	cursor: pointer;
-	-webkit-appearance: button; /* for input */
-	-webkit-user-select: none; /* for button */
-	-moz-user-select: none;
-	-ms-user-select: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-appearance: button; /* for input */
+  -webkit-user-select: none; /* for button */
+  -moz-user-select: none;
+  -ms-user-select: none;
 
-	.dark & {
-		border: 1px solid #fff;
-	}
+  .dark & {
+    border: 1px solid #fff;
+  }
 }
 
 input::-moz-focus-inner,
 button::-moz-focus-inner {
-	border: 0;
-	padding: 0;
+  border: 0;
+  padding: 0;
 }
 
 /* Make `a` like a button */
 [role="button"] {
-	color: inherit;
-	cursor: default;
-	display: inline-block;
-	text-align: center;
-	text-decoration: none;
-	white-space: pre;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+  color: inherit;
+  cursor: default;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  white-space: pre;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }

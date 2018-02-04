@@ -9,62 +9,62 @@ import MenuIcon from '!svg-react-loader!../assets/icons/menu.svg';
 import CrossIcon from '!svg-react-loader!../assets/icons/cross.svg';
 
 class App extends Component {
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.state = {
-			theme: "dark",
-			sidebarOpen: false
-		};
+    this.state = {
+      theme: "dark",
+      sidebarOpen: false
+    };
 
-		this.toggleSidebar = this.toggleSidebar.bind(this);
-	}
+    this.toggleSidebar = this.toggleSidebar.bind(this);
+  }
 
-	toggleSidebar() {
-		this.setState({ sidebarOpen: !this.state.sidebarOpen });
-	}
+  toggleSidebar() {
+    this.setState({ sidebarOpen: !this.state.sidebarOpen });
+  }
 
-	render() {
-		return (
-			<Breakpoint render={ ({ breakpoint }) => {
-				const { theme, sidebarOpen } = this.state;
-				const className = classNames("app-wrapper", breakpoint, theme, {
-					"sidebar-open": sidebarOpen
-				});
+  render() {
+    return (
+      <Breakpoint render={ ({ breakpoint }) => {
+        const { theme, sidebarOpen } = this.state;
+        const className = classNames("app-wrapper", breakpoint, theme, {
+          "sidebar-open": sidebarOpen
+        });
 
-				return (
-					<div className={className}>
-						<Sidebar breakpoint={breakpoint} theme={theme}>
-							<Nav>
-								<a href="#">Browse</a>
-							</Nav>
+        return (
+          <div className={className}>
+            <Sidebar breakpoint={breakpoint} theme={theme}>
+              <Nav>
+                <a href="#">Browse</a>
+              </Nav>
 
-							<h4>Your library</h4>
-							<Nav>
-								<a href="#">Recently played</a>
-								<a href="#">Your Songs</a>
-							</Nav>
+              <h4>Your library</h4>
+              <Nav>
+                <a href="#">Recently played</a>
+                <a href="#">Your Songs</a>
+              </Nav>
 
-							<h4>Playlists</h4>
-							<Nav>
-								<a href="#">Workout</a>
-							</Nav>
-						</Sidebar>
+              <h4>Playlists</h4>
+              <Nav>
+                <a href="#">Workout</a>
+              </Nav>
+            </Sidebar>
 
-						<MainContent>
-							<button onClick={this.toggleSidebar} className="menu-trigger">
-								{
-									sidebarOpen
-										? <CrossIcon className="close-icon" />
-										: <MenuIcon className="menu-icon" />
-								}
-							</button>
-						</MainContent>
-					</div>
-				);
-			}}/>
-		);
-	}
+            <MainContent>
+              <button onClick={this.toggleSidebar} className="menu-trigger">
+                {
+                  sidebarOpen
+                    ? <CrossIcon className="close-icon" />
+                    : <MenuIcon className="menu-icon" />
+                }
+              </button>
+            </MainContent>
+          </div>
+        );
+      }}/>
+    );
+  }
 }
 
 export default App;
