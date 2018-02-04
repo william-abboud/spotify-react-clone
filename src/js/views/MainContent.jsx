@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-function Main() {
+function Main({ children }) {
 	return (
 		<main className="main-content">
-			Hello World
+			{ children }
 		</main>
 	);
 }

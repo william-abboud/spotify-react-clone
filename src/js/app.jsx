@@ -14,6 +14,12 @@ class App extends Component {
 			theme: "dark",
 			sidebarOpen: false
 		};
+
+		this.toggleSidebar = this.toggleSidebar.bind(this);
+	}
+
+	toggleSidebar() {
+		this.setState({ sidebarOpen: !this.state.sidebarOpen });
 	}
 
 	render() {
@@ -46,7 +52,11 @@ class App extends Component {
 							</Nav>
 						</Sidebar>
 
-						<MainContent />
+						<MainContent>
+							<button onClick={this.toggleSidebar}>
+								{ sidebarOpen ? "Close" : "Open" }
+							</button>
+						</MainContent>
 					</div>
 				);
 			}}/>
