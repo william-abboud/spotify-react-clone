@@ -123,7 +123,7 @@ module.exports = env => {
 					use: cssLoaders
 				},
 				{
-					test: /\.(jpg|jpeg|gif|png|svg)$/,
+					test: /\.(jpg|jpeg|gif|png)$/,
 					use: [
 						{
 							loader: "file-loader",
@@ -150,6 +150,13 @@ module.exports = env => {
 					options: {
 						name: "[path][name].[hash:8].[ext]",
 						context: "src"
+					}
+				},
+				{
+					test: /\.svg$/,
+					loader: 'svg-react-loader',
+					query: {
+						classIdPrefix: '[name]-[hash:8]__'
 					}
 				}
 			]

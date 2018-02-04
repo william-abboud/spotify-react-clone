@@ -5,6 +5,8 @@ import Sidebar from './views/Sidebar.jsx';
 import MainContent from './views/MainContent.jsx';
 import Nav from './views/Nav.jsx';
 import Breakpoint from './utils/Breakpoint.jsx';
+import MenuIcon from '!svg-react-loader!../assets/icons/menu.svg';
+import CrossIcon from '!svg-react-loader!../assets/icons/cross.svg';
 
 class App extends Component {
 	constructor(props) {
@@ -53,8 +55,12 @@ class App extends Component {
 						</Sidebar>
 
 						<MainContent>
-							<button onClick={this.toggleSidebar}>
-								{ sidebarOpen ? "Close" : "Open" }
+							<button onClick={this.toggleSidebar} className="menu-trigger">
+								{
+									sidebarOpen
+										? <CrossIcon className="close-icon" />
+										: <MenuIcon className="menu-icon" />
+								}
 							</button>
 						</MainContent>
 					</div>
