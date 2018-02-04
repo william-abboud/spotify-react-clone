@@ -34,10 +34,7 @@ class App extends Component {
 
 				return (
 					<div className={className}>
-						<Sidebar 
-							breakpoint={breakpoint}
-							theme={theme}
-						>
+						<Sidebar breakpoint={breakpoint} theme={theme}>
 							<Nav>
 								<a href="#">Browse</a>
 							</Nav>
