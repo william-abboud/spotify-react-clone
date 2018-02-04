@@ -1,0 +1,34 @@
+@font-face {
+	font-family: 'Montserrat-regular';
+	src: url('./assets/fonts/montserrat/Montserrat-Regular.woff2') format('woff2'),
+		url('./assets/fonts/montserrat/Montserrat-Regular.woff') format('woff');
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: "Montserrat-regular", sans-serif, Arial;
+}
+
+body {
+	height: 100vh;
+	width: 100%;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.root {
+	height: 100%;
+}
+
+.app-wrapper {
+	height: 100%;
+	display: flex;
+	position: relative;
+}
