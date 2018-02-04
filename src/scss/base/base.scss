@@ -1,3 +1,5 @@
+@import './buttons.scss';
+
 @font-face {
 	font-family: 'Montserrat-regular';
 	src: url('./assets/fonts/montserrat/Montserrat-Regular.woff2') format('woff2'),
@@ -31,4 +33,9 @@ ul {
 	height: 100%;
 	display: flex;
 	position: relative;
+
+	&.dark {
+		background-color: $black-900;
+		color: #fff;
+	}
 }

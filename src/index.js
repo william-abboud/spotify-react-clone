@@ -1,5 +1,6 @@
 import './main.scss';
 import "babel-polyfill";
+import Outliner from 'storm-outliner';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import React from 'react';

@@ -1,10 +1,13 @@
 .main-content {
 	flex: 1;
-	background: #fff;
 	z-index: 2;
 	transition: transform 0.3s ease-in;
 
 	.app-wrapper.sidebar-open & {
 		transform: translateX(200px);
+	}
+
+	.dark & {
+		background: inherit;
 	}
 }
