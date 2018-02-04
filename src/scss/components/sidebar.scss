@@ -1,0 +1,17 @@
+.sidebar {
+	$width: 200px;
+	
+	height: 100%;
+	padding: 20px;
+	width: $width;
+	position: absolute;
+
+	&.dark {
+		background: $black-900;
+		color: #fff;
+
+		a {
+			color: #fff;
+		}
+	}
+}
