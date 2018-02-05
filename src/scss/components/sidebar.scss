@@ -9,7 +9,8 @@
   &.dark {
     background: $black-900;
     color: #fff;
-
+    border-right: 1px solid;
+    
     a {
       color: #fff;
     }

@@ -1,0 +1,24 @@
+.main-header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .dark & {
+    border-bottom: 1px solid #fff;
+  }
+
+  .menu-trigger {
+    fill: #fff;
+
+    [class$="icon"] {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .spotify-logo-icon {
+    width: 100px;
+    height: 50px;
+  }
+}
