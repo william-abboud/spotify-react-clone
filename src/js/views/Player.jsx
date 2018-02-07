@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { string, bool } from 'prop-types';
+import classNames from 'classnames';
 
 const NO_OP = () => {};
 
@@ -103,8 +104,10 @@ class Player extends Component {
   }
 
   render() {
+    const className = classNames("player", this.props.className);
+    
     return (
-      <article className="player">
+      <article className={className}>
         {
           this.props.render(Object.assign({}, this.state, {
             play: this.play,
@@ -124,6 +127,7 @@ class Player extends Component {
 Player.propTypes = {
   audio: string,
   autoplay: bool,
+  className: string,
 };
 
 export default Player;
