@@ -104,6 +104,7 @@ module.exports = env => {
   }
 
   return {
+    context: PATHS.app,
     entry: {
       app: ['react-hot-loader/patch', PATHS.app],
     },
@@ -150,6 +151,13 @@ module.exports = env => {
           options: {
             name: "[path][name].[hash:8].[ext]",
             context: "src"
+          }
+        },
+        {
+          test: /\.mp3$/,
+          loader: "file-loader",
+          options: {
+            context: PATHS.app
           }
         },
         {

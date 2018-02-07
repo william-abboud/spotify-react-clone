@@ -6,9 +6,11 @@ import MainContent from './views/MainContent.jsx';
 import Nav from './views/Nav.jsx';
 import Header from './views/Header.jsx';
 import Breakpoint from './utils/Breakpoint.jsx';
+import PlayerWithControls from './views/PlayerWithControls.jsx';
 import MenuIcon from '!svg-react-loader!../assets/icons/menu.svg';
 import CrossIcon from '!svg-react-loader!../assets/icons/cross.svg';
 import SpotifyLogoIcon from '!svg-react-loader!../assets/icons/spotify-logo.svg';
+import mp3 from '../assets/audio/sample.mp3';
 
 function AppInner({ breakpoint, theme, sidebarOpen, toggleSidebar }) {
   const className = classNames("app-wrapper", breakpoint, theme, {
@@ -48,6 +50,7 @@ function AppInner({ breakpoint, theme, sidebarOpen, toggleSidebar }) {
           <SpotifyLogoIcon className="spotify-logo-icon" />
         </a>
         </Header>
+        <PlayerWithControls audio={mp3} />
       </MainContent>
     </div>
   );
