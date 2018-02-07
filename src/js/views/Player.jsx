@@ -29,11 +29,15 @@ class Player extends Component {
     
     const _this = this;
     this.sound.addEventListener('loadedmetadata', () => {
-      _this.setState(() => ({ audioLength: _this.sound.duration }));
+      const audioLength = Math.round(_this.sound.duration);
+      
+      _this.setState(() => ({ audioLength }));
     });
 
     this.sound.addEventListener('timeupdate', () => {
-      _this.setState({ currentTime: _this.sound.currentTime });
+      const currentTime = Math.round(_this.sound.currentTime);
+
+      _this.setState({ currentTime });
     });
 
     if (this.props.autoplay) {

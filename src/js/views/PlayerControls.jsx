@@ -8,10 +8,28 @@ class PlayerControls extends Component {
 
     this.changeVolume = this.changeVolume.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
+    this.getProgressRef = this.getProgressRef.bind(this);
+    this.calcProgressBarWidth = this.calcProgressBarWidth.bind(this);
+
+    this.state = {
+      progressBarWidth: 'auto',
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ progressBarWidth: this.calcProgressBarWidth() })
+  }
+
+  calcProgressBarWidth() {
+    return Math.round(this.progressEl.path.getBoundingClientRect().width);
   }
 
   changeVolume({ target }) {
     this.props.setVolume(Number(target.value));
+  }
+
+  getProgressRef(ref) {
+    this.progressEl = ref;
   }
 
   toggleMute() {
@@ -26,13 +44,17 @@ class PlayerControls extends Component {
 
   render() {
     const { play, pause, stop, volume, muted, audioLength, currentTime } = this.props;
+    const { progressBarWidth } = this.state;
+    const progressPercent = ( currentTime / audioLength ) * 100;
 
     return (
       <div className="player-controls">
         <Line 
-          percent={currentTime}
+          percent={progressPercent}
+          style={{ width: progressBarWidth }}
           className="audio-progress"
           strokeColor="#91dd59"
+          ref={this.getProgressRef}
         />
         <button onClick={play}>Play</button>
         <button onClick={pause}>Pause</button>
