@@ -10,12 +10,15 @@ class Player extends Component {
       playing: false,
       stopped: false,
       volume: 1.0,
+      currentTime: 0,
+      length: 0,
     };
 
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
     this.stop = this.stop.bind(this);
     this.setVolume = this.setVolume.bind(this);
+    this.setCurrentTime = this.setCurrentTime.bind(this);
     this.mute = this.mute.bind(this);
     this.unmute = this.unmute.bind(this);
   }
@@ -23,6 +26,11 @@ class Player extends Component {
   componentDidMount() {
     this.sound = new Audio(this.props.audio);
     this.sound.preload = "metadata";
+    this.sound.ontimeupdate = () => {
+      this.setCurrentTime(this.sound.currentTime);
+    };
+
+    this.setState({ length: this.sound.length });
 
     if (this.props.autoplay) {
       this.play();
@@ -86,6 +94,11 @@ class Player extends Component {
     this.setState({ volume: value }, cb);
   }
 
+  setCurrentTime(value, cb) {
+    cb = typeof cb === "function" ? cb : NO_OP;
+    this.setState({ currentTime: value });
+  }
+
   render() {
     return (
       <article className="player">
@@ -95,9 +108,10 @@ class Player extends Component {
           pause: this.pause,
           stop: this.stop,
           setVolume: this.setVolume,
+          setCurrentTime: this.setCurrentTime,
           mute: this.mute,
           unmute: this.unmute,
-          muted: this.muted
+          muted: this.muted,
         }))
       }
       </article>

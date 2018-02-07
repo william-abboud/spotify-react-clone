@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { func, number } from 'prop-types';
+import { func, number, bool } from 'prop-types';
+import { Line } from 'rc-progress';
 
 class PlayerControls extends Component {
   constructor(props) {
@@ -24,10 +25,11 @@ class PlayerControls extends Component {
   }
 
   render() {
-    const { play, pause, stop, volume, muted } = this.props;
+    const { play, pause, stop, volume, muted, currentTime } = this.props;
 
     return (
       <div className="player-controls">
+        <Line percent={currentTime} />
         <button onClick={play}>Play</button>
         <button onClick={pause}>Pause</button>
         <button onClick={stop}>Stop</button>
@@ -52,6 +54,8 @@ PlayerControls.propTypes = {
   mute: func.isRequired,
   setVolume: func.isRequired,
   volume: number.isRequired,
+  currentTime: number.isRequired,
+  muted: bool.isRequired,
 };
 
 export default PlayerControls;
