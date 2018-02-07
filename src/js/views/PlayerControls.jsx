@@ -25,11 +25,15 @@ class PlayerControls extends Component {
   }
 
   render() {
-    const { play, pause, stop, volume, muted, currentTime } = this.props;
+    const { play, pause, stop, volume, muted, audioLength, currentTime } = this.props;
 
     return (
       <div className="player-controls">
-        <Line percent={currentTime} />
+        <Line 
+          percent={currentTime}
+          className="audio-progress"
+          strokeColor="#91dd59"
+        />
         <button onClick={play}>Play</button>
         <button onClick={pause}>Pause</button>
         <button onClick={stop}>Stop</button>
@@ -54,8 +58,9 @@ PlayerControls.propTypes = {
   mute: func.isRequired,
   setVolume: func.isRequired,
   volume: number.isRequired,
-  currentTime: number.isRequired,
   muted: bool.isRequired,
+  audioLength: number.isRequired,
+  currentTime: number.isRequired,
 };
 
 export default PlayerControls;

@@ -1,0 +1,9 @@
+.player-controls {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  .audio-progress {
+    flex: 0 1 100%;
+  }
+}
