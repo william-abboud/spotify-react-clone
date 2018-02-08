@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { func, number, bool } from 'prop-types';
 import { Line } from 'rc-progress';
+import LineSlider from './LineSlider.jsx';
 import PlayIcon from '!svg-react-loader!../../assets/icons/play.svg';
 import PauseIcon from '!svg-react-loader!../../assets/icons/pause.svg';
 
@@ -10,28 +11,17 @@ class PlayerControls extends Component {
 
     this.changeVolume = this.changeVolume.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
-    this.getProgressRef = this.getProgressRef.bind(this);
-    this.calcProgressBarWidth = this.calcProgressBarWidth.bind(this);
-
-    this.state = {
-      progressBarWidth: 'auto',
-    };
-  }
-
-  componentDidMount() {
-    this.setState({ progressBarWidth: this.calcProgressBarWidth() })
-  }
-
-  calcProgressBarWidth() {
-    return Math.round(this.progressEl.path.getBoundingClientRect().width);
+    this.convertPercentageToTime = this.convertPercentageToTime.bind(this);
   }
 
   changeVolume({ target }) {
     this.props.setVolume(Number(target.value));
   }
 
-  getProgressRef(ref) {
-    this.progressEl = ref;
+  convertPercentageToTime(percent) {
+    const { audioLength, setCurrentTime } = this.props;
+    const currentTime = (percent / 100) * audioLength;
+    setCurrentTime(Math.round(currentTime));
   }
 
   toggleMute() {
@@ -46,17 +36,15 @@ class PlayerControls extends Component {
 
   render() {
     const { play, playing, pause, stop, volume, muted, audioLength, currentTime } = this.props;
-    const { progressBarWidth } = this.state;
     const progressPercent = ( currentTime / audioLength ) * 100;
 
     return (
       <div className="player-controls">
-        <Line 
+        <LineSlider
           percent={progressPercent}
-          style={{ width: progressBarWidth }}
           className="audio-progress"
           strokeColor="#91dd59"
-          ref={this.getProgressRef}
+          onProgressChange={this.convertPercentageToTime}
         />
 
         <div className="button-controls">
@@ -102,6 +90,7 @@ PlayerControls.propTypes = {
   playing: bool.isRequired,
   audioLength: number.isRequired,
   currentTime: number.isRequired,
+  setCurrentTime: func.isRequired,
 };
 
 export default PlayerControls;

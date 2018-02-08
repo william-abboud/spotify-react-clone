@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { string, bool } from 'prop-types';
+import { string, bool, func } from 'prop-types';
 import classNames from 'classnames';
 
 const NO_OP = () => {};
@@ -21,6 +21,7 @@ class Player extends Component {
     this.setVolume = this.setVolume.bind(this);
     this.mute = this.mute.bind(this);
     this.unmute = this.unmute.bind(this);
+    this.setCurrentTime = this.setCurrentTime.bind(this);
   }
 
   componentDidMount() {
@@ -103,6 +104,11 @@ class Player extends Component {
     this.setState({ volume: value }, cb);
   }
 
+  setCurrentTime(value, cb) {
+    this.sound.currentTime = value;
+    this.setState({ currentTime: value }, cb);
+  }
+
   render() {
     const className = classNames("player", this.props.className);
     
@@ -114,6 +120,7 @@ class Player extends Component {
             pause: this.pause,
             stop: this.stop,
             setVolume: this.setVolume,
+            setCurrentTime: this.setCurrentTime,
             mute: this.mute,
             unmute: this.unmute,
             muted: this.muted,
@@ -128,6 +135,11 @@ Player.propTypes = {
   audio: string,
   autoplay: bool,
   className: string,
+  setCurrentTime: func,
+};
+
+Player.defaultProps = {
+  setCurrentTime() {}
 };
 
 export default Player;

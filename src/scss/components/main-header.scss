@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 90px;
 
   .dark & {
     border-bottom: 1px solid #fff;

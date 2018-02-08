@@ -14,7 +14,7 @@ import mp3 from '../assets/audio/sample.mp3';
 
 function AppInner({ breakpoint, theme, sidebarOpen, toggleSidebar }) {
   const className = classNames("app-wrapper", breakpoint, theme, {
-        "sidebar-open": sidebarOpen
+    "sidebar-open": sidebarOpen
   });
   
   return (
