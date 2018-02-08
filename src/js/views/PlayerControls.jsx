@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { func, number, bool } from 'prop-types';
 import { Line } from 'rc-progress';
+import PlayIcon from '!svg-react-loader!../../assets/icons/play.svg';
+import PauseIcon from '!svg-react-loader!../../assets/icons/pause.svg';
 
 class PlayerControls extends Component {
   constructor(props) {
@@ -43,7 +45,7 @@ class PlayerControls extends Component {
   }
 
   render() {
-    const { play, pause, stop, volume, muted, audioLength, currentTime } = this.props;
+    const { play, playing, pause, stop, volume, muted, audioLength, currentTime } = this.props;
     const { progressBarWidth } = this.state;
     const progressPercent = ( currentTime / audioLength ) * 100;
 
@@ -56,22 +58,38 @@ class PlayerControls extends Component {
           strokeColor="#91dd59"
           ref={this.getProgressRef}
         />
-        <button onClick={play}>Play</button>
-        <button onClick={pause}>Pause</button>
-        <button onClick={stop}>Stop</button>
-        <button onClick={this.toggleMute}>{ muted ? 'Unmute' : 'Mute' }</button>
-        <input
-          type="number"
-          min="0.0"
-          max="1.0"
-          step="0.05"
-          value={volume}
-          onChange={this.changeVolume}
-        />
+
+        <div className="button-controls">
+          {
+            (playing)
+            ?
+              <button onClick={pause} className="pause-button">
+                <PauseIcon className="pause-icon" />
+              </button>
+              
+            :
+              <button onClick={play} className="play-button">
+                <PlayIcon className="play-icon" />
+              </button>
+          }
+        </div>
       </div>
     );
   }
 }
+
+/*
+<button onClick={this.toggleMute}>{ muted ? 'Unmute' : 'Mute' }</button>
+        
+<input
+  type="number"
+  min="0.0"
+  max="1.0"
+  step="0.05"
+  value={volume}
+  onChange={this.changeVolume}
+/>
+*/
 
 PlayerControls.propTypes = {
   play: func.isRequired,
@@ -81,6 +99,7 @@ PlayerControls.propTypes = {
   setVolume: func.isRequired,
   volume: number.isRequired,
   muted: bool.isRequired,
+  playing: bool.isRequired,
   audioLength: number.isRequired,
   currentTime: number.isRequired,
 };

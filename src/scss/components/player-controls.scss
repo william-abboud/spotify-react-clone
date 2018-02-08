@@ -6,4 +6,30 @@
   .audio-progress {
     flex: 0 1 100%;
   }
+
+  .play-button,
+  .pause-button {
+    border-radius: 50px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .play-icon,
+  .pause-icon {
+    width: 30px;
+    height: 30px;
+    fill: #fff;
+  }
+
+  .button-controls {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 50px;
+  }
 }
