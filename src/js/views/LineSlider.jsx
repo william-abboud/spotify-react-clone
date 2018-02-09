@@ -35,20 +35,35 @@ class LineSlider extends Component {
     document.body.removeEventListener("mouseup", this.onDragRelease);
   }
 
+  componentDidMount() {
+    this.lineDimensions = this.line.path.getBoundingClientRect();
+    this.handle.style.willChange = "transform";
+  }
+
   componentWillReceiveProps({ percent }) {
     const handleOffset = this.calcSliderProgressInPx(percent);
     this.moveHandleLeft(handleOffset);
     this.setState({ percent });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.percent === nextState.percent &&
+      this.props.percent === nextProps.percent
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
   calcSliderProgressInPx(percent) {
-    const totalLineWidth = this.line.path.getBoundingClientRect().width;
-    
+    const totalLineWidth = this.lineDimensions.width;
+
     return Math.round( percent * (totalLineWidth / 100) );
   }
 
   calcSliderProgressPercentage() {
-    const totalLineWidth = this.line.path.getBoundingClientRect().width;
+    const totalLineWidth = this.lineDimensions.width;
     const handleLeftOffset = extractValueFromTransformStr(this.handle.style.transform);
 
     return Math.round( (handleLeftOffset / totalLineWidth) * 100);
@@ -58,7 +73,7 @@ class LineSlider extends Component {
     const {
       left: lineLeftOffset,
       width: totalLineWidth
-    } = this.line.path.getBoundingClientRect();
+    } = this.lineDimensions;
     
     const leftOffset =  clientX - lineLeftOffset;
 
@@ -94,7 +109,12 @@ class LineSlider extends Component {
     document.body.removeEventListener("mousemove", this.onDrag);
   }
 
-  onSliderPress({ clientX }) {
+  onSliderPress({ clientX, target }) {
+    if (target === this.handle) {
+      // mousedown will handle it
+      return;
+    }
+
     this.moveHandleLeft(this.calcLeftOffset(clientX));
 
     this.setState({ percent: this.calcSliderProgressPercentage() }, () => {

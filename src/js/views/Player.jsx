@@ -106,7 +106,6 @@ class Player extends Component {
 
   setCurrentTime(value, cb) {
     this.sound.currentTime = value;
-    this.setState({ currentTime: value }, cb);
   }
 
   render() {
