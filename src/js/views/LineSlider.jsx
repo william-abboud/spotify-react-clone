@@ -64,8 +64,8 @@ class LineSlider extends Component {
 
     return (
       leftOffset > totalLineWidth
-        ? totalLineWidth 
-        : leftOffset < 0 
+        ? totalLineWidth
+        : leftOffset < 0
           ? 0
           : leftOffset
     );

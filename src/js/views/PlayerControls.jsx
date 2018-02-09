@@ -12,16 +12,21 @@ class PlayerControls extends Component {
     this.changeVolume = this.changeVolume.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
     this.convertPercentageToTime = this.convertPercentageToTime.bind(this);
+    this.convertPercentageToVolume = this.convertPercentageToVolume.bind(this);
   }
 
-  changeVolume({ target }) {
-    this.props.setVolume(Number(target.value));
+  changeVolume(value) {
+    this.props.setVolume(value);
   }
 
   convertPercentageToTime(percent) {
     const { audioLength, setCurrentTime } = this.props;
     const currentTime = (percent / 100) * audioLength;
     setCurrentTime(Math.round(currentTime));
+  }
+
+  convertPercentageToVolume(percent) {
+    this.changeVolume(percent / 100);
   }
 
   toggleMute() {
@@ -63,7 +68,8 @@ class PlayerControls extends Component {
 
           <LineSlider
             style={{ width: "100px" }}
-            percent={1}
+            percent={volume * 100}
+            onProgressChange={this.convertPercentageToVolume}
           />
         </div>
       </div>
