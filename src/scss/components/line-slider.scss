@@ -12,7 +12,7 @@
     background: white;
     padding: 3px;
     z-index: 3;
-    left: 0;
+    transform: translateX(0);
     top: -1px;
     
     &:hover {

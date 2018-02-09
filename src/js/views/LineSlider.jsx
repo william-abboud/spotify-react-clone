@@ -14,6 +14,7 @@ class LineSlider extends Component {
     this.getLineRef = this.getLineRef.bind(this);
     this.calcSliderProgressInPx = this.calcSliderProgressInPx.bind(this);
     this.calcSliderProgressPercentage = this.calcSliderProgressPercentage.bind(this);
+    this.moveHandleLeft = this.moveHandleLeft.bind(this);
 
     this.state = {
       percent: undefined,
@@ -27,7 +28,7 @@ class LineSlider extends Component {
 
   componentWillReceiveProps({ percent }) {
     const handleOffset = this.calcSliderProgressInPx(percent);
-    this.handle.style.left = `${handleOffset}px`;
+    this.moveHandleLeft(handleOffset);
     this.setState({ percent });
   }
 
@@ -38,10 +39,17 @@ class LineSlider extends Component {
   }
 
   calcSliderProgressPercentage() {
+    const numberPattern = /\D/g;
     const totalLineWidth = this.line.path.getBoundingClientRect().width;
-    const handleLeftOffset = parseInt(this.handle.style.left, 10);
+    const handleLeftOffset = Number(
+      this.handle.style.transform.replace(numberPattern, '')
+    );
 
     return Math.round( (handleLeftOffset / totalLineWidth) * 100);
+  }
+
+  moveHandleLeft(distance) {
+    this.handle.style.transform = `translateX(${distance}px)`;
   }
 
   getHandleRef(ref) {
@@ -53,7 +61,7 @@ class LineSlider extends Component {
   }
 
   onDrag({ clientX }) {
-    this.handle.style.left = `${clientX}px`;
+    this.moveHandleLeft(clientX);
     this.setState({ percent: this.calcSliderProgressPercentage() }, () => {
       this.props.onProgressChange(this.state.percent);
     });
@@ -64,10 +72,10 @@ class LineSlider extends Component {
   }
 
   onSliderPress({ clientX }) {
-    this.handle.style.left = `${clientX}px`;
-    const newPercent = 
+    this.moveHandleLeft(clientX);
 
     this.setState({ percent: this.calcSliderProgressPercentage() }, () => {
+      this.props.onProgressChange(this.state.percent);
       this.onHandleGrab();
     });
   }
