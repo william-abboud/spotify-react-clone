@@ -60,6 +60,11 @@ class PlayerControls extends Component {
                 <PlayIcon className="play-icon" />
               </button>
           }
+
+          <LineSlider
+            style={{ width: "100px" }}
+            percent={1}
+          />
         </div>
       </div>
     );

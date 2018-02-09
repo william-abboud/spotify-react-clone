@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { string, number, object, func } from 'prop-types';
 import { Line } from 'rc-progress';
 
+function extractValueFromTransformStr(tansformStr) {
+  const openBracketIndex = tansformStr.indexOf("(");
+  const closeBracketIndex = tansformStr.indexOf(")");
+  const valueStr = tansformStr.slice(openBracketIndex + 1, closeBracketIndex);
+
+  return parseInt(valueStr, 10);
+}
+
 class LineSlider extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +22,7 @@ class LineSlider extends Component {
     this.getLineRef = this.getLineRef.bind(this);
     this.calcSliderProgressInPx = this.calcSliderProgressInPx.bind(this);
     this.calcSliderProgressPercentage = this.calcSliderProgressPercentage.bind(this);
+    this.calcLeftOffset = this.calcLeftOffset.bind(this);
     this.moveHandleLeft = this.moveHandleLeft.bind(this);
 
     this.state = {
@@ -39,13 +48,27 @@ class LineSlider extends Component {
   }
 
   calcSliderProgressPercentage() {
-    const numberPattern = /\D/g;
     const totalLineWidth = this.line.path.getBoundingClientRect().width;
-    const handleLeftOffset = Number(
-      this.handle.style.transform.replace(numberPattern, '')
-    );
+    const handleLeftOffset = extractValueFromTransformStr(this.handle.style.transform);
 
     return Math.round( (handleLeftOffset / totalLineWidth) * 100);
+  }
+
+  calcLeftOffset(clientX) {
+    const {
+      left: lineLeftOffset,
+      width: totalLineWidth
+    } = this.line.path.getBoundingClientRect();
+    
+    const leftOffset =  clientX - lineLeftOffset;
+
+    return (
+      leftOffset > totalLineWidth
+        ? totalLineWidth 
+        : leftOffset < 0 
+          ? 0
+          : leftOffset
+    );
   }
 
   moveHandleLeft(distance) {
@@ -61,7 +84,7 @@ class LineSlider extends Component {
   }
 
   onDrag({ clientX }) {
-    this.moveHandleLeft(clientX);
+    this.moveHandleLeft(this.calcLeftOffset(clientX));
     this.setState({ percent: this.calcSliderProgressPercentage() }, () => {
       this.props.onProgressChange(this.state.percent);
     });
@@ -72,7 +95,7 @@ class LineSlider extends Component {
   }
 
   onSliderPress({ clientX }) {
-    this.moveHandleLeft(clientX);
+    this.moveHandleLeft(this.calcLeftOffset(clientX));
 
     this.setState({ percent: this.calcSliderProgressPercentage() }, () => {
       this.props.onProgressChange(this.state.percent);
@@ -86,10 +109,10 @@ class LineSlider extends Component {
   }
 
   render() {
-    const { className, onProgressChange, ...lineProps } = this.props;
+    const { className, style, onProgressChange, ...lineProps } = this.props;
 
     return (
-      <div className="line-slider" onMouseDown={this.onSliderPress}>
+      <div className="line-slider" onMouseDown={this.onSliderPress} style={style}>
         <button
           className="handle"
           onMouseDown={this.onHandleGrab}
