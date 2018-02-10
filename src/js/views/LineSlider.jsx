@@ -21,6 +21,7 @@ class LineSlider extends Component {
     this.getHandleRef = this.getHandleRef.bind(this);
     this.getLineRef = this.getLineRef.bind(this);
     this.calcSliderProgressPercentage = this.calcSliderProgressPercentage.bind(this);
+    this.calcSliderProgressInPx = this.calcSliderProgressInPx.bind(this);
     this.calcLeftOffset = this.calcLeftOffset.bind(this);
     this.moveHandleLeft = this.moveHandleLeft.bind(this);
 
@@ -39,6 +40,9 @@ class LineSlider extends Component {
   }
 
   componentWillReceiveProps({ percent }) {
+    this.setState({ percent: percent }, () => {
+      this.moveHandleLeft(this.calcSliderProgressInPx());
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -56,6 +60,14 @@ class LineSlider extends Component {
     const handleLeftOffset = extractValueFromTransformStr(this.handle.style.transform);
 
     return (handleLeftOffset / totalLineWidth) * 100;
+  }
+
+  calcSliderProgressInPx() {
+    if (!this.lineDimensions) {
+      this.lineDimensions = this.line.path.getBoundingClientRect();
+    }
+
+    return ( this.state.percent / 100 ) * this.lineDimensions.width;
   }
 
   calcLeftOffset(clientX) {
