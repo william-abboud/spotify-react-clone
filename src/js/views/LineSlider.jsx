@@ -7,7 +7,7 @@ function extractValueFromTransformStr(tansformStr) {
   const closeBracketIndex = tansformStr.indexOf(")");
   const valueStr = tansformStr.slice(openBracketIndex + 1, closeBracketIndex);
 
-  return parseInt(valueStr, 10);
+  return parseFloat(valueStr, 10);
 }
 
 class LineSlider extends Component {
@@ -20,7 +20,6 @@ class LineSlider extends Component {
     this.onSliderPress = this.onSliderPress.bind(this);
     this.getHandleRef = this.getHandleRef.bind(this);
     this.getLineRef = this.getLineRef.bind(this);
-    this.calcSliderProgressInPx = this.calcSliderProgressInPx.bind(this);
     this.calcSliderProgressPercentage = this.calcSliderProgressPercentage.bind(this);
     this.calcLeftOffset = this.calcLeftOffset.bind(this);
     this.moveHandleLeft = this.moveHandleLeft.bind(this);
@@ -36,14 +35,10 @@ class LineSlider extends Component {
   }
 
   componentDidMount() {
-    this.lineDimensions = this.line.path.getBoundingClientRect();
     this.handle.style.willChange = "transform";
   }
 
   componentWillReceiveProps({ percent }) {
-    const handleOffset = this.calcSliderProgressInPx(percent);
-    this.moveHandleLeft(handleOffset);
-    this.setState({ percent });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -56,17 +51,11 @@ class LineSlider extends Component {
     return true;
   }
 
-  calcSliderProgressInPx(percent) {
-    const totalLineWidth = this.lineDimensions.width;
-
-    return Math.round( percent * (totalLineWidth / 100) );
-  }
-
   calcSliderProgressPercentage() {
     const totalLineWidth = this.lineDimensions.width;
     const handleLeftOffset = extractValueFromTransformStr(this.handle.style.transform);
 
-    return Math.round( (handleLeftOffset / totalLineWidth) * 100);
+    return (handleLeftOffset / totalLineWidth) * 100;
   }
 
   calcLeftOffset(clientX) {
@@ -99,6 +88,10 @@ class LineSlider extends Component {
   }
 
   onDrag({ clientX }) {
+    if (!this.lineDimensions) {
+      this.lineDimensions = this.line.path.getBoundingClientRect();
+    }
+
     this.moveHandleLeft(this.calcLeftOffset(clientX));
     this.setState({ percent: this.calcSliderProgressPercentage() }, () => {
       this.props.onProgressChange(this.state.percent);
@@ -111,8 +104,11 @@ class LineSlider extends Component {
 
   onSliderPress({ clientX, target }) {
     if (target === this.handle) {
-      // mousedown will handle it
       return;
+    }
+
+    if (!this.lineDimensions) {
+      this.lineDimensions = this.line.path.getBoundingClientRect();
     }
 
     this.moveHandleLeft(this.calcLeftOffset(clientX));

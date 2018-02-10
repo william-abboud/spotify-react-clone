@@ -22,7 +22,7 @@ class PlayerControls extends Component {
   convertPercentageToTime(percent) {
     const { audioLength, setCurrentTime } = this.props;
     const currentTime = (percent / 100) * audioLength;
-    setCurrentTime(Math.round(currentTime));
+    setCurrentTime(currentTime);
   }
 
   convertPercentageToVolume(percent) {
