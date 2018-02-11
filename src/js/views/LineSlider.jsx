@@ -40,9 +40,11 @@ class LineSlider extends Component {
   }
 
   componentWillReceiveProps({ percent }) {
-    this.setState({ percent: percent }, () => {
-      this.moveHandleLeft(this.calcSliderProgressInPx());
-    });
+    if (typeof percent === "number" && !Number.isNaN(percent)) {
+      this.setState({ percent }, () => {
+        this.moveHandleLeft(this.calcSliderProgressInPx());
+      });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -63,9 +65,7 @@ class LineSlider extends Component {
   }
 
   calcSliderProgressInPx() {
-    if (!this.lineDimensions) {
-      this.lineDimensions = this.line.path.getBoundingClientRect();
-    }
+    this.lineDimensions = this.line.path.parentElement.getBoundingClientRect();
 
     return ( this.state.percent / 100 ) * this.lineDimensions.width;
   }
@@ -101,7 +101,7 @@ class LineSlider extends Component {
 
   onDrag({ clientX }) {
     if (!this.lineDimensions) {
-      this.lineDimensions = this.line.path.getBoundingClientRect();
+      this.lineDimensions = this.line.path.parentElement.getBoundingClientRect();
     }
 
     this.moveHandleLeft(this.calcLeftOffset(clientX));
@@ -120,7 +120,7 @@ class LineSlider extends Component {
     }
 
     if (!this.lineDimensions) {
-      this.lineDimensions = this.line.path.getBoundingClientRect();
+      this.lineDimensions = this.line.path.parentElement.getBoundingClientRect();
     }
 
     this.moveHandleLeft(this.calcLeftOffset(clientX));
