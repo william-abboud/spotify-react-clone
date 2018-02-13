@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { string, bool, func } from 'prop-types';
+import { string, bool, func, number, oneOfType, arrayOf } from 'prop-types';
 import classNames from 'classnames';
 
 const NO_OP = () => {};
@@ -13,6 +13,7 @@ class Player extends Component {
       volume: 1.0,
       audioLength: 0,
       currentTime: 0,
+      currentAudioIndex: 0,
     };
 
     this.play = this.play.bind(this);
@@ -22,12 +23,22 @@ class Player extends Component {
     this.mute = this.mute.bind(this);
     this.unmute = this.unmute.bind(this);
     this.setCurrentTime = this.setCurrentTime.bind(this);
+    this.goToNextAudio = this.goToNextAudio.bind(this);
+    this.goToPrevAudio = this.goToPrevAudio.bind(this);
+    this.initPlayer = this.initPlayer.bind(this);
   }
 
-  componentDidMount() {
+  initPlayer(props) {
+    const { audio, currentAudioIndex, autoplay } = props;
+
     this.sound = new Audio();
     this.sound.preload = "metadata";
-    this.sound.src = this.props.audio;
+
+    if (Array.isArray(audio)) {
+      this.sound.src = audio[currentAudioIndex];
+    } else {
+      this.sound.src = audio;
+    }
 
     const _this = this;
     this.sound.addEventListener('loadedmetadata', () => {
@@ -42,23 +53,36 @@ class Player extends Component {
       _this.setState({ currentTime });
     });
 
-    if (this.props.autoplay) {
+    if (autoplay) {
       this.play();
     }
   }
 
-  componentDidUpdate() {
-    const { state } = this;
+  componentDidMount() {
+    this.initPlayer(this.props);
+  }
 
-    this.sound.volume = state.volume;
+  componentDidUpdate(prevProps, prevState) {
+    this.sound.volume = this.state.volume;
 
-    if (state.playing) {
+    if (this.state.currentAudioIndex !== prevState.currentAudioIndex) {
+      this.sound.pause();
+      this.sound = null;
+      this.initPlayer({
+        ...this.props,
+        currentAudioIndex: this.state.currentAudioIndex
+      });
+
+      return;
+    }
+
+    if (this.state.playing) {
       this.sound.play();
     } else {
       this.sound.pause();
     }
 
-    if (state.stopped) {
+    if (this.state.stopped) {
       this.sound.pause();
       this.sound.currentTime = 0;
     }
@@ -115,6 +139,14 @@ class Player extends Component {
     this.sound.currentTime = value;
   }
 
+  goToPrevAudio() {
+    this.setState({ currentAudioIndex: this.state.currentAudioIndex - 1 });
+  }
+
+  goToNextAudio() {
+    this.setState({ currentAudioIndex: this.state.currentAudioIndex + 1 });
+  }
+
   render() {
     const className = classNames("player", this.props.className);
 
@@ -127,6 +159,8 @@ class Player extends Component {
             stop: this.stop,
             setVolume: this.setVolume,
             setCurrentTime: this.setCurrentTime,
+            goToNextAudio: this.goToNextAudio,
+            goToPrevAudio: this.goToPrevAudio,
             mute: this.mute,
             unmute: this.unmute,
             muted: this.muted,
@@ -138,7 +172,8 @@ class Player extends Component {
 }
 
 Player.propTypes = {
-  audio: string.isRequired,
+  audio: oneOfType([ string, arrayOf(string) ]).isRequired,
+  currentAudioIndex: number,
   autoplay: bool,
   className: string,
   render: func.isRequired,
@@ -147,6 +182,7 @@ Player.propTypes = {
 Player.defaultProps = {
   autoplay: false,
   className: "",
+  currentAudioIndex: 0,
 };
 
 export default Player;

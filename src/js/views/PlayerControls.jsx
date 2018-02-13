@@ -3,6 +3,8 @@ import { func, number, bool } from 'prop-types';
 import LineSlider from './LineSlider';
 import PlayIcon from '!svg-react-loader!../../assets/icons/play.svg';
 import PauseIcon from '!svg-react-loader!../../assets/icons/pause.svg';
+import ForwardIcon from '!svg-react-loader!../../assets/icons/forward.svg';
+import BackwardIcon from '!svg-react-loader!../../assets/icons/backward.svg';
 
 class PlayerControls extends Component {
   constructor(props) {
@@ -39,7 +41,17 @@ class PlayerControls extends Component {
   }
 
   render() {
-    const { play, playing, pause, volume, audioLength, currentTime } = this.props;
+    const {
+      play,
+      playing,
+      pause,
+      volume,
+      audioLength,
+      currentTime,
+      goToPrevAudio,
+      goToNextAudio
+    } = this.props;
+
     const progressPercent = (currentTime / audioLength) * 100;
 
     return (
@@ -52,6 +64,10 @@ class PlayerControls extends Component {
         />
 
         <div className="button-controls">
+          <button onClick={goToPrevAudio}>
+            <BackwardIcon className="backward-icon" />
+          </button>
+
           {
             (playing)
             ?
@@ -63,6 +79,10 @@ class PlayerControls extends Component {
                 <PlayIcon className="play-icon" />
               </button>
           }
+
+          <button onClick={goToNextAudio}>
+            <ForwardIcon className="forward-icon" />
+          </button>
 
           <LineSlider
             style={{ width: "100px" }}
@@ -88,6 +108,8 @@ PlayerControls.propTypes = {
   audioLength: number.isRequired,
   currentTime: number.isRequired,
   setCurrentTime: func.isRequired,
+  goToPrevAudio: func.isRequired,
+  goToNextAudio: func.isRequired,
 };
 
 export default PlayerControls;
