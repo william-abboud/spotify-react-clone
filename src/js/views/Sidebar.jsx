@@ -1,5 +1,5 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, oneOfType, arrayOf, node } from 'prop-types';
 import classNames from 'classnames';
 
 function Sidebar({ theme, children }) {
@@ -10,6 +10,7 @@ function Sidebar({ theme, children }) {
 
 Sidebar.propTypes = {
   theme: string.isRequired,
+  children: oneOfType([ arrayOf(node), node ]).isRequired
 };
 
 export default Sidebar;

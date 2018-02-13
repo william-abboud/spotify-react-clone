@@ -75,18 +75,6 @@ class PlayerControls extends Component {
   }
 }
 
-/*
-<button onClick={this.toggleMute}>{ muted ? 'Unmute' : 'Mute' }</button>
-<input
-  type="number"
-  min="0.0"
-  max="1.0"
-  step="0.05"
-  value={volume}
-  onChange={this.changeVolume}
-/>
-*/
-
 PlayerControls.propTypes = {
   play: func.isRequired,
   pause: func.isRequired,

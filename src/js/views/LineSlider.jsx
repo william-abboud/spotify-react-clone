@@ -142,6 +142,7 @@ class LineSlider extends Component {
     return (
       <div
         className="line-slider"
+        role="presentation"
         onMouseDown={this.onSliderPress}
         style={style}
       >
@@ -162,14 +163,15 @@ class LineSlider extends Component {
 
 LineSlider.propTypes = {
   percent: number.isRequired,
-  className: string.isRequired,
-  strokeColor: string.isRequired,
-  style: object.isRequired,
+  className: string,
+  style: object,
   onProgressChange: func,
 };
 
 LineSlider.defaultProps = {
-  onProgressChange() {}
+  onProgressChange() {},
+  className: "",
+  style: {},
 };
 
 export default LineSlider;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { node, arrayOf, oneOfType } from 'prop-types';
 
 function Main({ children }) {
   return (
@@ -7,5 +8,9 @@ function Main({ children }) {
     </main>
   );
 }
+
+Main.propTypes = {
+  children: oneOfType([ arrayOf(node), node ]).isRequired
+};
 
 export default Main;

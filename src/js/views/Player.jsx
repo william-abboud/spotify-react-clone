@@ -138,15 +138,15 @@ class Player extends Component {
 }
 
 Player.propTypes = {
-  audio: string,
+  audio: string.isRequired,
   autoplay: bool,
   className: string,
-  setCurrentTime: func,
   render: func.isRequired,
 };
 
 Player.defaultProps = {
-  setCurrentTime() {}
+  autoplay: false,
+  className: "",
 };
 
 export default Player;

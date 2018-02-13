@@ -23,5 +23,6 @@
     "react/forbid-prop-types": "off",
     "react/sort-comp": "off",
     "no-underscore-dangle": "off",
+    "array-bracket-spacing": "off",
   }
 }
