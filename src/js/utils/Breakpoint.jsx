@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { func } from 'prop-types';
 
 class Breakpoint extends Component {
   constructor(props) {
@@ -20,19 +21,22 @@ class Breakpoint extends Component {
     this.setBreakpoint = this.setBreakpoint.bind(this);
   }
 
+  componentDidMount() {
+    this.setBreakpoint();
+    window.onresize = this.setBreakpoint;
+  }
+
   getBreakpoint() {
     const winWidth = window.innerWidth;
     const breakpoints = Object.keys(this.breakpointsRanges);
 
     for (const breakpoint of breakpoints) {
-      const [ min, max ] = this.breakpointsRanges[breakpoint];
+      const [min, max] = this.breakpointsRanges[breakpoint];
 
       if (winWidth >= min && winWidth <= max) {
         return breakpoint;
       }
     }
-
-    console.warn("No breakpoint found! Using phone breakpoint");
 
     return "phone";
   }
@@ -46,14 +50,13 @@ class Breakpoint extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setBreakpoint();
-    window.onresize = this.setBreakpoint;
-  }
-
   render() {
     return this.props.render(this.state);
   }
 }
+
+Breakpoint.propTypes = {
+  render: func.isRequired,
+};
 
 export default Breakpoint;

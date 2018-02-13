@@ -30,11 +30,6 @@ class LineSlider extends Component {
     };
   }
 
-  componentWillUnmount() {
-    document.body.removeEventListener("mousemove", this.onDrag);
-    document.body.removeEventListener("mouseup", this.onDragRelease);
-  }
-
   componentDidMount() {
     this.handle.style.willChange = "transform";
   }
@@ -57,6 +52,19 @@ class LineSlider extends Component {
     return true;
   }
 
+  componentWillUnmount() {
+    document.body.removeEventListener("mousemove", this.onDrag);
+    document.body.removeEventListener("mouseup", this.onDragRelease);
+  }
+
+  getHandleRef(ref) {
+    this.handle = ref;
+  }
+
+  getLineRef(ref) {
+    this.line = ref;
+  }
+
   calcSliderProgressPercentage() {
     const totalLineWidth = this.lineDimensions.width;
     const handleLeftOffset = extractValueFromTransformStr(this.handle.style.transform);
@@ -67,7 +75,7 @@ class LineSlider extends Component {
   calcSliderProgressInPx() {
     this.lineDimensions = this.line.path.parentElement.getBoundingClientRect();
 
-    return ( this.state.percent / 100 ) * this.lineDimensions.width;
+    return (this.state.percent / 100) * this.lineDimensions.width;
   }
 
   calcLeftOffset(clientX) {
@@ -75,28 +83,20 @@ class LineSlider extends Component {
       left: lineLeftOffset,
       width: totalLineWidth
     } = this.lineDimensions;
-    
-    const leftOffset =  clientX - lineLeftOffset;
 
-    return (
-      leftOffset > totalLineWidth
-        ? totalLineWidth
-        : leftOffset < 0
-          ? 0
-          : leftOffset
-    );
+    const leftOffset = clientX - lineLeftOffset;
+
+    if (leftOffset > totalLineWidth) {
+      return totalLineWidth;
+    } else if (leftOffset < 0) {
+      return 0;
+    }
+
+    return leftOffset;
   }
 
   moveHandleLeft(distance) {
     this.handle.style.transform = `translateX(${distance}px)`;
-  }
-
-  getHandleRef(ref) {
-    this.handle = ref;
-  }
-
-  getLineRef(ref) {
-    this.line = ref;
   }
 
   onDrag({ clientX }) {
@@ -140,7 +140,11 @@ class LineSlider extends Component {
     const { className, style, onProgressChange, ...lineProps } = this.props;
 
     return (
-      <div className="line-slider" onMouseDown={this.onSliderPress} style={style}>
+      <div
+        className="line-slider"
+        onMouseDown={this.onSliderPress}
+        style={style}
+      >
         <button
           className="handle"
           onMouseDown={this.onHandleGrab}
@@ -157,10 +161,10 @@ class LineSlider extends Component {
 }
 
 LineSlider.propTypes = {
-  percent: number,
-  className: string,
-  strokeColor: string,
-  style: object,
+  percent: number.isRequired,
+  className: string.isRequired,
+  strokeColor: string.isRequired,
+  style: object.isRequired,
   onProgressChange: func,
 };
 

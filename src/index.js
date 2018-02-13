@@ -1,10 +1,10 @@
 import './main.scss';
 import "babel-polyfill";
-import Outliner from 'storm-outliner';
+import 'storm-outliner';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import React from 'react';
-import App from './js/app.jsx';
+import App from './js/app';
 
 const renderApp = (Component) => {
   render(

@@ -28,11 +28,11 @@ class Player extends Component {
     this.sound = new Audio();
     this.sound.preload = "metadata";
     this.sound.src = this.props.audio;
-    
+
     const _this = this;
     this.sound.addEventListener('loadedmetadata', () => {
       const audioLength = Math.round(_this.sound.duration);
-      
+
       _this.setState(() => ({ audioLength }));
     });
 
@@ -49,7 +49,7 @@ class Player extends Component {
 
   componentDidUpdate() {
     const { state } = this;
-    
+
     this.sound.volume = state.volume;
 
     if (state.playing) {
@@ -65,28 +65,28 @@ class Player extends Component {
   }
 
   play(cb) {
-    cb = typeof cb === "function" ? cb : NO_OP;
-    this.setState({ playing: true, stopped: false }, cb);
+    const callback = typeof cb === "function" ? cb : NO_OP;
+    this.setState({ playing: true, stopped: false }, callback);
   }
 
   pause(cb) {
-    cb = typeof cb === "function" ? cb : NO_OP;
-    this.setState({ playing: false, stopped: false }, cb);
+    const callback = typeof cb === "function" ? cb : NO_OP;
+    this.setState({ playing: false, stopped: false }, callback);
   }
 
   stop(cb) {
-    cb = typeof cb === "function" ? cb : NO_OP;
-    this.setState({ stopped: true, playing: false }, cb);
+    const callback = typeof cb === "function" ? cb : NO_OP;
+    this.setState({ stopped: true, playing: false }, callback);
   }
 
   mute(cb) {
-    cb = typeof cb === "function" ? cb : NO_OP;
-    this.setVolume(0, cb);
+    const callback = typeof cb === "function" ? cb : NO_OP;
+    this.setVolume(0, callback);
   }
 
   unmute(cb) {
-    cb = typeof cb === "function" ? cb : NO_OP;
-    this.setVolume(1, cb);
+    const callback = typeof cb === "function" ? cb : NO_OP;
+    this.setVolume(1, callback);
   }
 
   get muted() {
@@ -98,19 +98,26 @@ class Player extends Component {
       throw new Error("Volume value supplied must be a number in the range of 0.0 to 1.0 !");
     }
 
-    value = (value > 1) ? 1 : (value < 0) ? 0 : value;
-    cb = typeof cb === "function" ? cb : NO_OP;
+    let volume = value;
 
-    this.setState({ volume: value }, cb);
+    if (value > 1) {
+      volume = 1;
+    } else if (value < 0) {
+      volume = 0;
+    }
+
+    const callback = typeof cb === "function" ? cb : NO_OP;
+
+    this.setState({ volume }, callback);
   }
 
-  setCurrentTime(value, cb) {
+  setCurrentTime(value) {
     this.sound.currentTime = value;
   }
 
   render() {
     const className = classNames("player", this.props.className);
-    
+
     return (
       <article className={className}>
         {
@@ -135,6 +142,7 @@ Player.propTypes = {
   autoplay: bool,
   className: string,
   setCurrentTime: func,
+  render: func.isRequired,
 };
 
 Player.defaultProps = {

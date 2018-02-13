@@ -104,6 +104,9 @@ module.exports = env => {
   }
 
   return {
+    resolve: {
+      extensions: ['.js','.jsx']
+    },
     context: PATHS.app,
     entry: {
       app: ['react-hot-loader/patch', PATHS.app],

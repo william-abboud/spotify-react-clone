@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { func, number, bool } from 'prop-types';
-import { Line } from 'rc-progress';
-import LineSlider from './LineSlider.jsx';
+import LineSlider from './LineSlider';
 import PlayIcon from '!svg-react-loader!../../assets/icons/play.svg';
 import PauseIcon from '!svg-react-loader!../../assets/icons/pause.svg';
 
@@ -30,7 +29,7 @@ class PlayerControls extends Component {
   }
 
   toggleMute() {
-    const { mute, unmute, volume, muted } = this.props;
+    const { mute, unmute, muted } = this.props;
 
     if (muted) {
       unmute();
@@ -40,8 +39,8 @@ class PlayerControls extends Component {
   }
 
   render() {
-    const { play, playing, pause, stop, volume, muted, audioLength, currentTime } = this.props;
-    const progressPercent = ( currentTime / audioLength ) * 100;
+    const { play, playing, pause, volume, audioLength, currentTime } = this.props;
+    const progressPercent = (currentTime / audioLength) * 100;
 
     return (
       <div className="player-controls">
@@ -59,7 +58,6 @@ class PlayerControls extends Component {
               <button onClick={pause} className="pause-button">
                 <PauseIcon className="pause-icon" />
               </button>
-              
             :
               <button onClick={play} className="play-button">
                 <PlayIcon className="play-icon" />
@@ -79,7 +77,6 @@ class PlayerControls extends Component {
 
 /*
 <button onClick={this.toggleMute}>{ muted ? 'Unmute' : 'Mute' }</button>
-        
 <input
   type="number"
   min="0.0"
@@ -95,6 +92,7 @@ PlayerControls.propTypes = {
   pause: func.isRequired,
   stop: func.isRequired,
   mute: func.isRequired,
+  unmute: func.isRequired,
   setVolume: func.isRequired,
   volume: number.isRequired,
   muted: bool.isRequired,

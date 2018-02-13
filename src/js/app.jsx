@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import React, { Component } from 'react';
-import { string } from 'prop-types';
-import Sidebar from './views/Sidebar.jsx';
-import MainContent from './views/MainContent.jsx';
-import Nav from './views/Nav.jsx';
-import Header from './views/Header.jsx';
-import Breakpoint from './utils/Breakpoint.jsx';
-import PlayerWithControls from './views/PlayerWithControls.jsx';
+import { string, bool, func } from 'prop-types';
+import Sidebar from './views/Sidebar';
+import MainContent from './views/MainContent';
+import Nav from './views/Nav';
+import Header from './views/Header';
+import Breakpoint from './utils/Breakpoint';
+import PlayerWithControls from './views/PlayerWithControls';
 import MenuIcon from '!svg-react-loader!../assets/icons/menu.svg';
 import CrossIcon from '!svg-react-loader!../assets/icons/cross.svg';
 import SpotifyLogoIcon from '!svg-react-loader!../assets/icons/spotify-logo.svg';
@@ -16,12 +16,12 @@ function AppInner({ breakpoint, theme, sidebarOpen, toggleSidebar }) {
   const className = classNames("app-wrapper", breakpoint, theme, {
     "sidebar-open": sidebarOpen
   });
-  
+
   return (
     <div className={className}>
       <Sidebar breakpoint={breakpoint} theme={theme}>
         <Nav>
-          <a href="#">Browse</a>
+          <a href="/browse">Browse</a>
         </Nav>
 
         <h4>Your library</h4>
@@ -44,17 +44,24 @@ function AppInner({ breakpoint, theme, sidebarOpen, toggleSidebar }) {
                 ? <CrossIcon className="close-icon" />
                 : <MenuIcon className="menu-icon" />
             }
-        </button>
+          </button>
 
-        <a href="/" className="logo">
-          <SpotifyLogoIcon className="spotify-logo-icon" />
-        </a>
+          <a href="/" className="logo">
+            <SpotifyLogoIcon className="spotify-logo-icon" />
+          </a>
         </Header>
         <PlayerWithControls audio={mp3} />
       </MainContent>
     </div>
   );
 }
+
+AppInner.propTypes = {
+  breakpoint: string.isRequired,
+  theme: string.isRequired,
+  sidebarOpen: bool.isRequired,
+  toggleSidebar: func.isRequired,
+};
 
 class App extends Component {
   constructor(props) {
@@ -76,17 +83,15 @@ class App extends Component {
   renderAppInner({ breakpoint }) {
     return (
       <AppInner
-        breakpoint={breakpoint} 
+        breakpoint={breakpoint}
         toggleSidebar={this.toggleSidebar}
         {...this.state}
-       />
+      />
     );
   }
 
   render() {
-    return (
-      <Breakpoint render={ this.renderAppInner } />
-    );
+    return <Breakpoint render={this.renderAppInner} />;
   }
 }
 
