@@ -52,7 +52,7 @@ function AppInner({ breakpoint, theme, sidebarOpen, toggleSidebar }) {
             <SpotifyLogoIcon className="spotify-logo-icon" />
           </a>
         </Header>
-        <PlayerWithControls audio={[ mp3, sample2, sample3 ]} />
+        <PlayerWithControls audio={[ mp3, sample2, sample3 ]} autoplay />
       </MainContent>
     </div>
   );

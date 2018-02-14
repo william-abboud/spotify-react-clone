@@ -10,6 +10,7 @@ class Player extends Component {
     this.state = {
       playing: false,
       stopped: false,
+      loop: false,
       volume: 1.0,
       audioLength: 0,
       currentTime: 0,
@@ -53,6 +54,10 @@ class Player extends Component {
       const currentTime = Math.round(_this.sound.currentTime);
 
       _this.setState({ currentTime });
+    });
+
+    this.sound.addEventListener('ended', () => {
+      this.goToNextAudio();
     });
 
     if (autoplay) {
@@ -152,18 +157,21 @@ class Player extends Component {
     if (currentAudioIndex === 0) {
       return;
     }
-    
+
     this.setState({ currentAudioIndex: currentAudioIndex - 1 });
   }
 
   goToNextAudio() {
-    const { currentAudioIndex } = this.state;
+    const { currentAudioIndex, loop } = this.state;
     const { audio } = this.props;
 
-    if (
+    if (!loop &&
       (Array.isArray(audio) && currentAudioIndex === audio.length - 1) ||
       (!Array.isArray(audio) && currentAudioIndex === 0)
     ) {
+      return;
+    } else if (loop) {
+      this.setState({ currentAudioIndex: 0 });
       return;
     }
 
@@ -175,7 +183,7 @@ class Player extends Component {
   }
 
   repeat() {
-
+    this.setState({ loop: !this.state.loop });
   }
 
   render() {

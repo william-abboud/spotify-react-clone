@@ -69,7 +69,7 @@ class PlayerControls extends Component {
           <button className="shuffle-button">
             <ShuffleIcon className="shuffle-icon" />
           </button>
-          
+
           <button className="prev-audio-button" onClick={goToPrevAudio}>
             <BackwardIcon className="backward-icon" />
           </button>
@@ -89,7 +89,7 @@ class PlayerControls extends Component {
           <button className="next-audio-button" onClick={goToNextAudio}>
             <ForwardIcon className="forward-icon" />
           </button>
-          
+
           <button className="repeat-button">
             <RepeatIcon className="shuffle-icon" />
           </button>
