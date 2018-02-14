@@ -5,6 +5,8 @@ import PlayIcon from '!svg-react-loader!../../assets/icons/play.svg';
 import PauseIcon from '!svg-react-loader!../../assets/icons/pause.svg';
 import ForwardIcon from '!svg-react-loader!../../assets/icons/forward.svg';
 import BackwardIcon from '!svg-react-loader!../../assets/icons/backward.svg';
+import ShuffleIcon from '!svg-react-loader!../../assets/icons/shuffle.svg';
+import RepeatIcon from '!svg-react-loader!../../assets/icons/loop.svg';
 
 class PlayerControls extends Component {
   constructor(props) {
@@ -64,7 +66,11 @@ class PlayerControls extends Component {
         />
 
         <div className="button-controls">
-          <button onClick={goToPrevAudio}>
+          <button className="shuffle-button">
+            <ShuffleIcon className="shuffle-icon" />
+          </button>
+          
+          <button className="prev-audio-button" onClick={goToPrevAudio}>
             <BackwardIcon className="backward-icon" />
           </button>
 
@@ -80,8 +86,12 @@ class PlayerControls extends Component {
               </button>
           }
 
-          <button onClick={goToNextAudio}>
+          <button className="next-audio-button" onClick={goToNextAudio}>
             <ForwardIcon className="forward-icon" />
+          </button>
+          
+          <button className="repeat-button">
+            <RepeatIcon className="shuffle-icon" />
           </button>
 
           <LineSlider

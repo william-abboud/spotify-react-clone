@@ -26,6 +26,8 @@ class Player extends Component {
     this.goToNextAudio = this.goToNextAudio.bind(this);
     this.goToPrevAudio = this.goToPrevAudio.bind(this);
     this.initPlayer = this.initPlayer.bind(this);
+    this.shuffle = this.shuffle.bind(this);
+    this.repeat = this.repeat.bind(this);
   }
 
   initPlayer(props) {
@@ -63,14 +65,19 @@ class Player extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.sound.volume = this.state.volume;
+    const { currentAudioIndex, volume } = this.state;
+    const { audio } = this.props;
+    this.sound.volume = volume;
 
-    if (this.state.currentAudioIndex !== prevState.currentAudioIndex) {
+    if (currentAudioIndex !== prevState.currentAudioIndex &&
+        (currentAudioIndex >= 0 ||
+        (Array.isArray(audio) && currentAudioIndex <= audio.length - 1))
+    ) {
       this.sound.pause();
       this.sound = null;
       this.initPlayer({
         ...this.props,
-        currentAudioIndex: this.state.currentAudioIndex
+        currentAudioIndex
       });
 
       return;
@@ -140,11 +147,35 @@ class Player extends Component {
   }
 
   goToPrevAudio() {
-    this.setState({ currentAudioIndex: this.state.currentAudioIndex - 1 });
+    const { currentAudioIndex } = this.state;
+
+    if (currentAudioIndex === 0) {
+      return;
+    }
+    
+    this.setState({ currentAudioIndex: currentAudioIndex - 1 });
   }
 
   goToNextAudio() {
+    const { currentAudioIndex } = this.state;
+    const { audio } = this.props;
+
+    if (
+      (Array.isArray(audio) && currentAudioIndex === audio.length - 1) ||
+      (!Array.isArray(audio) && currentAudioIndex === 0)
+    ) {
+      return;
+    }
+
     this.setState({ currentAudioIndex: this.state.currentAudioIndex + 1 });
+  }
+
+  shuffle() {
+
+  }
+
+  repeat() {
+
   }
 
   render() {

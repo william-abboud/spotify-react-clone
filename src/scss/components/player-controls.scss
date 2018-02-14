@@ -4,6 +4,10 @@
   align-items: center;
   width: 100%;
 
+  .dark & {
+    fill: #fff;
+  }
+
   .audio-progress {
     flex: 0 1 100%;
   }
@@ -18,13 +22,30 @@
     align-items: center;
   }
 
+  .next-audio-button,
+  .prev-audio-button,
+  .shuffle-button,
+  .repeat-button {
+    border: none;
+    padding: 0;
+  }
+
   .play-icon,
-  .pause-icon,
-  .backward-icon,
-  .forward-icon {
+  .pause-icon {
     width: 30px;
     height: 30px;
-    fill: #fff;
+  }
+
+  .backward-icon,
+  .forward-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .shuffle-icon,
+  .repeat-icon {
+    width: 10px;
+    height: 10px;
   }
 
   .button-controls {
